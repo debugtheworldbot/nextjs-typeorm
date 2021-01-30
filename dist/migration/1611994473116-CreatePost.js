@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CreatePost1591040425001 = void 0;
+exports.CreatePost1611994473116 = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -17,12 +17,12 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 
 var _typeorm = require("typeorm");
 
-var CreatePost1591040425001 = /*#__PURE__*/function () {
-  function CreatePost1591040425001() {
-    (0, _classCallCheck2["default"])(this, CreatePost1591040425001);
+var CreatePost1611994473116 = /*#__PURE__*/function () {
+  function CreatePost1611994473116() {
+    (0, _classCallCheck2["default"])(this, CreatePost1611994473116);
   }
 
-  (0, _createClass2["default"])(CreatePost1591040425001, [{
+  (0, _createClass2["default"])(CreatePost1611994473116, [{
     key: "up",
     value: function () {
       var _up = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(queryRunner) {
@@ -49,9 +49,6 @@ var CreatePost1591040425001 = /*#__PURE__*/function () {
                 }));
 
               case 2:
-                return _context.abrupt("return", _context.sent);
-
-              case 3:
               case "end":
                 return _context.stop();
             }
@@ -77,9 +74,6 @@ var CreatePost1591040425001 = /*#__PURE__*/function () {
                 return queryRunner.dropTable('posts');
 
               case 2:
-                return _context2.abrupt("return", _context2.sent);
-
-              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -94,7 +88,7 @@ var CreatePost1591040425001 = /*#__PURE__*/function () {
       return down;
     }()
   }]);
-  return CreatePost1591040425001;
+  return CreatePost1611994473116;
 }();
 
-exports.CreatePost1591040425001 = CreatePost1591040425001;
+exports.CreatePost1611994473116 = CreatePost1611994473116;
