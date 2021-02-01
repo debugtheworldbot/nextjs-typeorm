@@ -12,6 +12,7 @@ var _typeorm = require("typeorm");
 
 var _Post = require("./entity/Post");
 
+// import {User} from "./entity/User";
 (0, _typeorm.createConnection)().then( /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(connection) {
     var posts;
@@ -33,18 +34,19 @@ var _Post = require("./entity/Post");
             _context.next = 6;
             return connection.manager.save([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(function (n) {
               return new _Post.Post({
-                title: "Post ".concat(n),
-                content: "\u8FD9\u662F\u6211\u7684\u7B2C".concat(n, "\u7BC7\u6587\u7AE0")
+                title: "".concat(n, "th Post"),
+                content: "".concat(n, "th content")
               });
             }));
 
           case 6:
-            console.log('posts 数据填充了');
+            console.log('seeding success.');
 
           case 7:
-            connection.close();
+            _context.next = 9;
+            return connection.close();
 
-          case 8:
+          case 9:
           case "end":
             return _context.stop();
         }
