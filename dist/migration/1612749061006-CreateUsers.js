@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CreatePost1611994473116 = void 0;
+exports.CreateUsers1612749061006 = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -17,12 +17,12 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 
 var _typeorm = require("typeorm");
 
-var CreatePost1611994473116 = /*#__PURE__*/function () {
-  function CreatePost1611994473116() {
-    (0, _classCallCheck2["default"])(this, CreatePost1611994473116);
+var CreateUsers1612749061006 = /*#__PURE__*/function () {
+  function CreateUsers1612749061006() {
+    (0, _classCallCheck2["default"])(this, CreateUsers1612749061006);
   }
 
-  (0, _createClass2["default"])(CreatePost1611994473116, [{
+  (0, _createClass2["default"])(CreateUsers1612749061006, [{
     key: "up",
     value: function () {
       var _up = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(queryRunner) {
@@ -32,7 +32,7 @@ var CreatePost1611994473116 = /*#__PURE__*/function () {
               case 0:
                 _context.next = 2;
                 return queryRunner.createTable(new _typeorm.Table({
-                  name: 'posts',
+                  name: 'users',
                   columns: [{
                     name: 'id',
                     type: 'int',
@@ -40,11 +40,11 @@ var CreatePost1611994473116 = /*#__PURE__*/function () {
                     isGenerated: true,
                     generationStrategy: 'increment'
                   }, {
-                    name: 'title',
+                    name: 'username',
                     type: 'varchar'
                   }, {
-                    name: 'content',
-                    type: 'text'
+                    name: 'password_digest',
+                    type: 'varchar'
                   }]
                 }));
 
@@ -74,7 +74,7 @@ var CreatePost1611994473116 = /*#__PURE__*/function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return queryRunner.dropTable('posts');
+                return queryRunner.dropTable('users');
 
               case 2:
                 return _context2.abrupt("return", _context2.sent);
@@ -94,7 +94,7 @@ var CreatePost1611994473116 = /*#__PURE__*/function () {
       return down;
     }()
   }]);
-  return CreatePost1611994473116;
+  return CreateUsers1612749061006;
 }();
 
-exports.CreatePost1611994473116 = CreatePost1611994473116;
+exports.CreateUsers1612749061006 = CreateUsers1612749061006;
