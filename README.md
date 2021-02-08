@@ -6,6 +6,11 @@ yarn dev
 npm run dev
 ```
 
+## create database
+
+```
+CREATE DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+```
 ## 部署
 
 ```bash 

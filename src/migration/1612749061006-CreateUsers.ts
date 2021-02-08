@@ -1,21 +1,19 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm"
 
-export class CreatePost1611994473116 implements MigrationInterface {
+export class CreateUsers1612749061006 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    // 升级数据库
     return await queryRunner.createTable(new Table({
-      name: 'posts', columns: [
+      name: 'users', columns: [
         {name: 'id', type: 'int', isPrimary: true, isGenerated: true, generationStrategy: 'increment'},
-        {name: 'title', type: 'varchar'},
-        {name: 'content', type: 'text'},
+        {name: 'username', type: 'varchar'},
+        {name: 'password_digest', type: 'varchar'},
       ]
     }))
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    // 降级
-    return await queryRunner.dropTable('posts')
+    return await queryRunner.dropTable('users')
   }
 
 }
