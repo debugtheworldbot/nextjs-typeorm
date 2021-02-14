@@ -10,12 +10,15 @@ require("reflect-metadata");
 
 var _typeorm = require("typeorm");
 
+var _Post = require("./entity/Post");
+
 var _User = require("./entity/User");
 
-// import {User} from "./entity/User";
+var _Comment = require("./entity/Comment");
+
 (0, _typeorm.createConnection)().then( /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(connection) {
-    var manager, u1;
+    var manager, u1, p1, c1;
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -28,11 +31,26 @@ var _User = require("./entity/User");
             return manager.save(u1);
 
           case 6:
-            console.log(u1.id);
-            _context.next = 9;
+            p1 = new _Post.Post();
+            p1.author = u1;
+            p1.title = 'a post';
+            p1.content = 'post content!';
+            _context.next = 12;
+            return manager.save(p1);
+
+          case 12:
+            c1 = new _Comment.Comment();
+            c1.user = u1;
+            c1.post = p1;
+            c1.content = 'this is a comment !';
+            _context.next = 18;
+            return manager.save(c1);
+
+          case 18:
+            _context.next = 20;
             return connection.close();
 
-          case 9:
+          case 20:
           case "end":
             return _context.stop();
         }
