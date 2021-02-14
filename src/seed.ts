@@ -10,5 +10,6 @@ createConnection().then(async connection => {
   u1.username='testName'
   u1.passwordDigest='testPassword'
   await manager.save(u1)
+  console.log(u1.id)
   await connection.close()
 }).catch(error => console.log(error));

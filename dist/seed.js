@@ -28,10 +28,11 @@ var _User = require("./entity/User");
             return manager.save(u1);
 
           case 6:
-            _context.next = 8;
+            console.log(u1.id);
+            _context.next = 9;
             return connection.close();
 
-          case 8:
+          case 9:
           case "end":
             return _context.stop();
         }
