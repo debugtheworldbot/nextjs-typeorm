@@ -10,9 +10,9 @@ export class Post {
   title: string
   @Column('text')
   content: string
-  @CreateDateColumn('time')
+  @CreateDateColumn()
   createdAt: Date
-  @CreateDateColumn('time')
+  @CreateDateColumn()
   UpdatedAt: Date
   @ManyToOne(type => User,user=>user.posts)
   author:User

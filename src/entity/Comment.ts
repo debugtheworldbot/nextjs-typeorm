@@ -8,9 +8,9 @@ export class Comment {
   id: number
   @Column('text')
   content: string
-  @CreateDateColumn('time')
+  @CreateDateColumn()
   createdAt: Date
-  @CreateDateColumn('time')
+  @CreateDateColumn()
   UpdatedAt: Date
   @ManyToOne(type => Post, post => post.comments)
   post: Post
