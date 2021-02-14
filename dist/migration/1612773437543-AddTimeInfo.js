@@ -40,12 +40,12 @@ var AddTimeInfo1612773437543 = /*#__PURE__*/function () {
                             _context.next = 2;
                             return queryRunner.addColumns(name, [new _typeorm.TableColumn({
                               name: 'createdAt',
-                              type: 'time',
+                              type: 'timestamp',
                               isNullable: false,
                               "default": 'now()'
                             }), new _typeorm.TableColumn({
                               name: 'updatedAt',
-                              type: 'time',
+                              type: 'timestamp',
                               isNullable: false,
                               "default": 'now()'
                             })]);

@@ -5,8 +5,8 @@ export class AddTimeInfo1612773437543 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const addTimeInfo = async (name: string) => {
       await queryRunner.addColumns(name, [
-          new TableColumn({name: 'createdAt', type: 'time', isNullable: false, default: 'now()'}),
-          new TableColumn({name: 'updatedAt', type: 'time', isNullable: false, default: 'now()'})
+          new TableColumn({name: 'createdAt', type: 'timestamp', isNullable: false, default: 'now()'}),
+          new TableColumn({name: 'updatedAt', type: 'timestamp', isNullable: false, default: 'now()'})
         ]
       )
     }
