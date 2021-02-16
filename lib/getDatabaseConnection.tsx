@@ -7,16 +7,14 @@ import "reflect-metadata"
 
 const promise = (async function () {
   const manger = await getConnectionManager()
-  if (manger.has('default')) {
-    const current = manger.get('default')
-    if (current.connect()) {
-      return current
-    }
+  const current = manger.has('default') && manger.get('default')
+  if (current && current.isConnected) {
+    await current.close()
   }
   // @ts-ignore
   return createConnection({
     ...config,
-    entities:[Post,User,Comment]
+    entities: [Post, User, Comment]
   })
 })()
 
