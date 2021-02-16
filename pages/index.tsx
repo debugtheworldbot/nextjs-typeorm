@@ -2,6 +2,7 @@ import {GetServerSideProps, NextPage} from 'next'
 import {UAParser} from 'ua-parser-js'
 import React, {useEffect, useState} from 'react'
 import {getDatabaseConnection} from '../lib/getDatabaseConnection'
+import {Post} from '../src/entity/Post'
 
 type Props = {
   browser: {
@@ -20,7 +21,7 @@ const index: NextPage<Props> = (props) => {
   return (
     <div>
       <h1>你的浏览器是2233 {browser.name}</h1>
-      <h2>你的浏览器窗口大小是 {width} 像素</h2>
+      <h2>你的浏览器窗口大小是 2{width} 像素</h2>
     </div>
   )
 }
@@ -28,6 +29,8 @@ export default index
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const connection = await getDatabaseConnection()
+  const posts = await connection.manager.find(Post)
+  console.log(posts)
   const ua = context.req.headers['user-agent']
   const result = new UAParser(ua).getResult()
   return {
