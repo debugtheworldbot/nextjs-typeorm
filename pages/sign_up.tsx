@@ -11,7 +11,6 @@ const SignUp: NextPage = () => {
   const onSubmit = useCallback(async (e) => {
     e.preventDefault()
     await axios.post(`api/v1/users`, data)
-    console.log(data)
   }, [data])
 
   return (
