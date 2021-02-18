@@ -15,7 +15,7 @@ const Users: NextApiHandler = async (req, res) => {
   if (trimName === '') {
     errors.username.push(`username can't be empty`)
   }
-  if (/[a-zA-Z0-9]/.test(trimName)) {
+  if (!/[a-zA-Z0-9]/.test(trimName)) {
     errors.username.push('invalid username')
   }
   if (trimName.length > 42) {
@@ -43,7 +43,11 @@ const Users: NextApiHandler = async (req, res) => {
     const user = new User()
     user.username = trimName
     user.passwordDigest = md5(password)
-    await connection.manager.save(user)
+    try {
+      await connection.manager.save(user)
+    }catch (e){
+      console.log('----------',e.detail)
+    }
     res.statusCode = 200
     res.write(JSON.stringify(user))
   }
