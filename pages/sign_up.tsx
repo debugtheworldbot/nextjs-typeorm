@@ -37,7 +37,7 @@ const SignUp: NextPage = () => {
             用户名
             <input type="text" value={data.username}
                    onChange={event => setData({...data, username: event.target.value})}/>
-            {errors.username?.length > 0 && <span>{errors.username.join(',')}</span>}
+            {errors.username?.length > 0 && <span>{errors.username.join(' ; ')}</span>}
           </label>
         </div>
         <div>
@@ -45,7 +45,7 @@ const SignUp: NextPage = () => {
             密码
             <input type="password" value={data.password}
                    onChange={event => setData({...data, password: event.target.value})}/>
-            {errors.password?.length > 0 && <span>{errors.password.join(',')}</span>}
+            {errors.password?.length > 0 && <span>{errors.password.join(' ; ')}</span>}
           </label>
         </div>
         <div>
@@ -53,7 +53,7 @@ const SignUp: NextPage = () => {
             确认密码
             <input type="password" value={data.passwordConfirmation}
                    onChange={event => setData({...data, passwordConfirmation: event.target.value})}/>
-            {errors.passwordConfirmation?.length > 0 && <span>{errors.passwordConfirmation.join(',')}</span>}
+            {errors.passwordConfirmation?.length > 0 && <span>{errors.passwordConfirmation.join(' ; ')}</span>}
           </label>
         </div>
         <button type={'submit'}>注册</button>
