@@ -12,6 +12,11 @@ const Users: NextApiHandler = async (req, res) => {
     passwordConfirmation: [] as string[],
   }
   const trimName = username.trim()
+  const connection = await getDatabaseConnection()
+  const duplicated = await connection.manager.findOne(User, {username})
+  if (duplicated){
+    errors.username.push('username has been token,please try to use another name')
+  }
   if (trimName === '') {
     errors.username.push(`username can't be empty`)
   }
@@ -39,17 +44,18 @@ const Users: NextApiHandler = async (req, res) => {
     res.statusCode = 422
     res.write(JSON.stringify(errors))
   } else {
-    const connection = await getDatabaseConnection()
     const user = new User()
     user.username = trimName
     user.passwordDigest = md5(password)
-    try {
+    if (!duplicated) {
       await connection.manager.save(user)
-    }catch (e){
-      console.log('----------',e.detail)
+      res.statusCode = 200
+      res.write(JSON.stringify(user))
+    } else {
+      res.statusCode = 500
+      res.write('')
     }
-    res.statusCode = 200
-    res.write(JSON.stringify(user))
+
   }
   res.end()
 }
