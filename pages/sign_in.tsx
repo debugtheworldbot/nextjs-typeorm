@@ -15,11 +15,12 @@ const SignUp: NextPage = () => {
     e.preventDefault()
     try {
       await axios.post(`api/v1/sessions`, data)
+      window.alert('success')
     } catch (e) {
       if (e.response) {
         const response: AxiosResponse = e.response
         if (response.status === 422) {
-          setErrors({...errors, ...response.data})
+          setErrors(response.data)
         }
       }
     }
