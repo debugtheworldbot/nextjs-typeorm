@@ -17,7 +17,7 @@ const SignUp: NextPage = () => {
   const onSubmit = useCallback(async (e) => {
     e.preventDefault()
     try {
-      await axios.post(`api/v1/users`, data)
+      await axios.post(`api/v1/sessions`, data)
       window.alert('success!')
       window.location.href = '/sign_in'
     } catch (e) {
@@ -32,7 +32,7 @@ const SignUp: NextPage = () => {
 
   return (
     <>
-      <h1>注册</h1>
+      <h1>登录</h1>
       <form onSubmit={onSubmit}>
         <div>
           <label>
@@ -50,15 +50,7 @@ const SignUp: NextPage = () => {
             {errors.password?.length > 0 && <span>{errors.password.join(' ; ')}</span>}
           </label>
         </div>
-        <div>
-          <label>
-            确认密码
-            <input type="password" value={data.passwordConfirmation}
-                   onChange={event => setData({...data, passwordConfirmation: event.target.value})}/>
-            {errors.passwordConfirmation?.length > 0 && <span>{errors.passwordConfirmation.join(' ; ')}</span>}
-          </label>
-        </div>
-        <button type={'submit'}>注册</button>
+        <button type={'submit'}>登录</button>
       </form>
     </>
   )
