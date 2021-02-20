@@ -6,20 +6,15 @@ const SignUp: NextPage = () => {
   const [data, setData] = useState<Data>({
     username: '',
     password: '',
-    passwordConfirmation: ''
   })
   const [errors, setErrors] = useState({
     username: [],
     password: [],
-    passwordConfirmation: []
-
   })
   const onSubmit = useCallback(async (e) => {
     e.preventDefault()
     try {
       await axios.post(`api/v1/sessions`, data)
-      window.alert('success!')
-      window.location.href = '/sign_in'
     } catch (e) {
       if (e.response) {
         const response: AxiosResponse = e.response
@@ -59,7 +54,6 @@ const SignUp: NextPage = () => {
 interface Data {
   username: string
   password: string
-  passwordConfirmation: string
 }
 
 export default SignUp
