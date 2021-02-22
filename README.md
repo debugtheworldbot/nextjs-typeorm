@@ -1,3 +1,5 @@
+[![codebeat badge](https://codebeat.co/badges/6f3dd817-d325-4222-a403-a6793a985838)](https://codebeat.co/projects/github-com-debugtheworldbot-nextjs-typeorm-master)
+
 ## 开发
 
 ```bash
