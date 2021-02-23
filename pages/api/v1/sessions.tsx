@@ -1,26 +1,20 @@
 import {NextApiHandler} from 'next'
-import {getDatabaseConnection} from '../../../lib/getDatabaseConnection'
-import {User} from '../../../src/entity/User'
-import md5 from 'md5'
+import {SignIn} from '../../../src/modules/SignIn'
 
 
 const Sessions: NextApiHandler = async (req, res) => {
   res.setHeader('Content-Type', 'application/json;charset=utf-8')
   const {username, password} = req.body
-  const connection = await getDatabaseConnection()
-  const user = await connection.manager.findOne(User, {where: {username}})
-  if (user) {
-    const passwordDigest = md5(password)
-    if (passwordDigest === user.passwordDigest){
-      res.statusCode = 200
-      res.write(user)
-    }else {
-      res.statusCode = 422
-      res.write(JSON.stringify({password: ['incorrect password']}))
-    }
-  } else {
+  const signIn=new SignIn()
+  signIn.username = username
+  signIn.password = password
+  await signIn.validate()
+  if (signIn.hasErrors()){
     res.statusCode = 422
-    res.write(JSON.stringify({username: ['user does not exist']}))
+    res.write(JSON.stringify(signIn.errors))
+  }else {
+    res.statusCode = 200
+    res.write(JSON.stringify(signIn.user))
   }
   res.end()
 }
