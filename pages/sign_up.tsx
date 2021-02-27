@@ -1,6 +1,7 @@
 import {NextPage} from 'next'
 import React, {useCallback, useState} from 'react'
 import axios, {AxiosResponse} from 'axios'
+import {Form} from '../components/Form'
 
 const SignUp: NextPage = () => {
   const [data, setData] = useState<Data>({
@@ -30,36 +31,36 @@ const SignUp: NextPage = () => {
     }
   }, [data])
 
+  const onChange = useCallback((key: string, value: string) => {
+    setData({...data, [key]: value})
+  }, [data])
+
   return (
     <>
       <h1>注册</h1>
-      <form onSubmit={onSubmit}>
-        <div>
-          <label>
-            用户名
-            <input type="text" value={data.username}
-                   onChange={event => setData({...data, username: event.target.value})}/>
-            {errors.username?.length > 0 && <span>{errors.username.join(' ; ')}</span>}
-          </label>
-        </div>
-        <div>
-          <label>
-            密码
-            <input type="password" value={data.password}
-                   onChange={event => setData({...data, password: event.target.value})}/>
-            {errors.password?.length > 0 && <span>{errors.password.join(' ; ')}</span>}
-          </label>
-        </div>
-        <div>
-          <label>
-            确认密码
-            <input type="password" value={data.passwordConfirmation}
-                   onChange={event => setData({...data, passwordConfirmation: event.target.value})}/>
-            {errors.passwordConfirmation?.length > 0 && <span>{errors.passwordConfirmation.join(' ; ')}</span>}
-          </label>
-        </div>
-        <button type={'submit'}>注册</button>
-      </form>
+      <Form onSubmit={onSubmit} buttons={<button type={'submit'}>注册</button>} fields={[
+        {
+          label: 'username',
+          value: data.username,
+          inputType: 'text',
+          onChange: event => onChange('username', event.target.value),
+          errors: errors.username
+        },
+        {
+          label: 'password',
+          value: data.password,
+          inputType: 'password',
+          onChange: event => onChange('password', event.target.value),
+          errors: errors.password
+        },
+        {
+          label: 'passwordConfirmation',
+          value: data.passwordConfirmation,
+          inputType: 'password',
+          onChange: event => onChange('passwordConfirmation', event.target.value),
+          errors: errors.passwordConfirmation
+        },
+      ]} />
     </>
   )
 }

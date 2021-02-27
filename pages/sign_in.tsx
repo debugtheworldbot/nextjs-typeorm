@@ -30,26 +30,29 @@ const SignIn: NextPage<{ user: User }> = (props) => {
     }
   }, [data])
 
+  const onChange = useCallback((key: string, value: string) => {
+    setData({...data, [key]: value})
+  }, [data])
   return (
     <>
       {user && <div>
           current user is {user.username}
       </div>}
       <h1>登录</h1>
-      <Form onSubmit={onSubmit} submitText={'登录'} fields={[
+      <Form onSubmit={onSubmit} buttons={<button type={'submit'}>登录</button>} fields={[
         {
           label: 'username',
           value: data.username,
           inputType: 'text',
-          onChange: event => setData({...data, username: event.target.value}),
-          errors:errors.username
+          onChange: event => onChange('username', event.target.value),
+          errors: errors.username
         },
         {
           label: 'password',
           value: data.password,
           inputType: 'password',
-          onChange: event => setData({...data, password: event.target.value}),
-          errors:errors.password
+          onChange: event => onChange('password', event.target.value),
+          errors: errors.password
         },
       ]} />
     </>

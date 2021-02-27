@@ -1,25 +1,27 @@
-import React, {ChangeEventHandler} from 'react'
+import React, {ChangeEventHandler, FormEventHandler, ReactChild} from 'react'
 
 export const Form = (props: Props) => {
-  const {onSubmit, fields,submitText} = props
+  const {onSubmit, fields,buttons} = props
   return (
     <form onSubmit={onSubmit}>
       {fields.map(field =>
-        <div>
+        <div key={field.label}>
           <label>
             {field.label}
             <input type={field.inputType} value={field.value} onChange={field.onChange} />
             {field.errors?.length > 0 && <span>{field.errors.join(' ; ')}</span>}
           </label>
         </div>)}
-      <button type={'submit'}>{submitText}</button>
+        <div>
+          {buttons}
+        </div>
     </form>
   )
 }
 
 interface Props {
-  onSubmit: (e: any) => Promise<void>
-  submitText:string
+  onSubmit: FormEventHandler
+  buttons:ReactChild
   fields: {
     label: string
     inputType: 'text'|'password'
