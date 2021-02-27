@@ -1,19 +1,11 @@
 import {NextPage} from 'next'
-import React, {useCallback, useState} from 'react'
-import {Form} from '../../components/Form'
+import React from 'react'
 import axios, {AxiosResponse} from 'axios'
+import {useForm} from '../../hooks/useForm'
 
 const PostNew: NextPage = () => {
-  const [data, setData] = useState({
-    title: '',
-    content: '',
-  })
-  const [errors, setErrors] = useState({
-    title: [],
-    content: [],
-  })
-  const onSubmit = useCallback(async (e) => {
-    e.preventDefault()
+
+  const onSubmit = async (data: typeof initData) => {
     try {
       await axios.post(`api/v1/posts`, data)
       window.alert('post success!')
@@ -25,28 +17,32 @@ const PostNew: NextPage = () => {
         }
       }
     }
-  }, [data])
-  const onChange = useCallback((key: string, value: string) => {
-    setData({...data, [key]: value})
-  }, [data])
-  return (
-    <Form onSubmit={onSubmit} buttons={<button type={'submit'}>post</button>} fields={[
+  }
+
+  const initData = {title: '', content: ''}
+
+  const {form, setErrors} = useForm(initData,
+    [
       {
         label: 'title',
-        value: data.title,
         inputType: 'text',
-        onChange: event => onChange('title', event.target.value),
-        errors: errors.title
+        key: 'title'
       },
       {
         label: 'content',
-        value: data.content,
         inputType: 'textArea',
-        onChange: event => onChange('content', event.target.value),
-        errors: errors.content
+        key: 'content'
       }
-    ]} />
+    ],
+    <button type={'submit'}>post</button>,
+    onSubmit)
+
+  return (
+    <div>
+      {form}
+    </div>
   )
+
 }
 
 export default PostNew

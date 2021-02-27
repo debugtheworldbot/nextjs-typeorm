@@ -1,22 +1,11 @@
 import {NextPage} from 'next'
-import React, {useCallback, useState} from 'react'
+import React from 'react'
 import axios, {AxiosResponse} from 'axios'
-import {Form} from '../components/Form'
+import {useForm} from '../hooks/useForm'
 
 const SignUp: NextPage = () => {
-  const [data, setData] = useState<Data>({
-    username: '',
-    password: '',
-    passwordConfirmation: ''
-  })
-  const [errors, setErrors] = useState({
-    username: [],
-    password: [],
-    passwordConfirmation: []
 
-  })
-  const onSubmit = useCallback(async (e) => {
-    e.preventDefault()
+  const onSubmit = async (data: typeof initData) => {
     try {
       await axios.post(`api/v1/users`, data)
       window.alert('success!')
@@ -29,46 +18,37 @@ const SignUp: NextPage = () => {
         }
       }
     }
-  }, [data])
+  }
 
-  const onChange = useCallback((key: string, value: string) => {
-    setData({...data, [key]: value})
-  }, [data])
+  const initData = {username: '', password: '', passwordConfirmation: ''}
+
+  const {form, setErrors} = useForm(initData,
+    [
+      {
+        label: 'username',
+        inputType: 'text',
+        key: 'username'
+      },
+      {
+        label: 'password',
+        inputType: 'password',
+        key: 'password'
+      },
+      {
+        label: 'passwordConfirmation',
+        inputType: 'password',
+        key: 'passwordConfirmation'
+      },
+    ],
+    <button type={'submit'}>sign up</button>,
+    onSubmit)
 
   return (
-    <>
+    <div>
       <h1>注册</h1>
-      <Form onSubmit={onSubmit} buttons={<button type={'submit'}>注册</button>} fields={[
-        {
-          label: 'username',
-          value: data.username,
-          inputType: 'text',
-          onChange: event => onChange('username', event.target.value),
-          errors: errors.username
-        },
-        {
-          label: 'password',
-          value: data.password,
-          inputType: 'password',
-          onChange: event => onChange('password', event.target.value),
-          errors: errors.password
-        },
-        {
-          label: 'passwordConfirmation',
-          value: data.passwordConfirmation,
-          inputType: 'password',
-          onChange: event => onChange('passwordConfirmation', event.target.value),
-          errors: errors.passwordConfirmation
-        },
-      ]} />
-    </>
+      {form}
+    </div>
   )
-}
-
-interface Data {
-  username: string
-  password: string
-  passwordConfirmation: string
 }
 
 export default SignUp
