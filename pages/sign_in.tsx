@@ -3,6 +3,7 @@ import React, {useCallback, useState} from 'react'
 import axios, {AxiosResponse} from 'axios'
 import {withSession} from '../lib/withSession'
 import {User} from '../src/entity/User'
+import {Form} from '../components/Form'
 
 const SignIn: NextPage<{ user: User }> = (props) => {
   const {user} = props
@@ -35,25 +36,22 @@ const SignIn: NextPage<{ user: User }> = (props) => {
           current user is {user.username}
       </div>}
       <h1>登录</h1>
-      <form onSubmit={onSubmit}>
-        <div>
-          <label>
-            用户名
-            <input type="text" value={data.username}
-                   onChange={event => setData({...data, username: event.target.value})}/>
-            {errors.username?.length > 0 && <span>{errors.username.join(' ; ')}</span>}
-          </label>
-        </div>
-        <div>
-          <label>
-            密码
-            <input type="password" value={data.password}
-                   onChange={event => setData({...data, password: event.target.value})}/>
-            {errors.password?.length > 0 && <span>{errors.password.join(' ; ')}</span>}
-          </label>
-        </div>
-        <button type={'submit'}>登录</button>
-      </form>
+      <Form onSubmit={onSubmit} submitText={'登录'} fields={[
+        {
+          label: 'username',
+          value: data.username,
+          inputType: 'text',
+          onChange: event => setData({...data, username: event.target.value}),
+          errors:errors.username
+        },
+        {
+          label: 'password',
+          value: data.password,
+          inputType: 'password',
+          onChange: event => setData({...data, password: event.target.value}),
+          errors:errors.password
+        },
+      ]} />
     </>
   )
 }
