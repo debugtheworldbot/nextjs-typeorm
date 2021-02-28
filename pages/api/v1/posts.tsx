@@ -1,7 +1,6 @@
 import {NextApiHandler} from 'next'
 import {Post} from '../../../src/entity/Post'
 import {getDatabaseConnection} from '../../../lib/getDatabaseConnection'
-import {User} from '../../../src/entity/User'
 import {withSession} from '../../../lib/withSession'
 
 
@@ -16,14 +15,13 @@ const Posts: NextApiHandler = withSession(async (req, res) => {
     if (post.hasErrors()) {
       res.statusCode = 422
       res.write(JSON.stringify(post.errors))
+      res.end()
     } else {
       const connection = await getDatabaseConnection()
-      const user = req.session.get('currentUser')
-      post.author = user.id
+      post.author = req.session.get('currentUser')
       await connection.manager.save(post)
-      res.statusCode = 200
+      res.json(post)
     }
   }
-  res.end()
 })
 export default Posts

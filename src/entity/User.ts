@@ -17,9 +17,9 @@ export class User {
   createdAt: Date
   @CreateDateColumn()
   updatedAt: Date
-  @OneToMany(type => Post, post => post.author)
+  @OneToMany('Post', 'author')
   posts: Post[]
-  @OneToMany(type => Comment, comment => comment.user)
+  @OneToMany('Comment', 'user')
   comments: Comment[]
   errors = {
     username: [] as string[],
@@ -29,7 +29,7 @@ export class User {
   password: string
   passwordConfirmation: string
 
-  async validate() {
+  async validate () {
     const trimName = this.username.trim()
     const connection = await getDatabaseConnection()
     const duplicated = await connection.manager.findOne(User, {username: this.username})
@@ -60,16 +60,16 @@ export class User {
     return this.errors
   }
 
-  hasErrors() {
+  hasErrors () {
     return !!Object.values(this.errors).find(value => value.length > 0)
   }
 
   @BeforeInsert()
-  generatePasswordDigest() {
+  generatePasswordDigest () {
     this.passwordDigest = md5(this.password)
   }
 
-  toJSON() {
+  toJSON () {
     return _.omit(this, ['password', 'passwordConfirmation', 'errors', 'passwordDigest'])
   }
 }

@@ -12,8 +12,8 @@ export class Comment {
   createdAt: Date
   @CreateDateColumn()
   updatedAt: Date
-  @ManyToOne(type => Post, post => post.comments)
+  @ManyToOne('Post', 'comments')
   post: Post
-  @ManyToOne(type => User, user => user.comments)
+  @ManyToOne('User', 'comments')
   user: User
 }
