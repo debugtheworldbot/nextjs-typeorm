@@ -1,6 +1,6 @@
 import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next'
 import React from 'react'
-import axios, {AxiosResponse} from 'axios'
+import axios from 'axios'
 import {withSession} from '../lib/withSession'
 import {User} from '../src/entity/User'
 import {useForm} from '../hooks/useForm'
@@ -8,36 +8,13 @@ import {useForm} from '../hooks/useForm'
 const SignIn: NextPage<{ user: User }> = (props) => {
   const {user} = props
 
-  const onSubmit = async (data: typeof initData) => {
-    try {
-      await axios.post(`api/v1/sessions`, data)
-      window.alert('success')
-    } catch (e) {
-      if (e.response) {
-        const response: AxiosResponse = e.response
-        if (response.status === 422) {
-          setErrors(response.data)
-        }
-      }
-    }
-  }
-  const initData = {username: '', password: ''}
-
-  const {form, setErrors} = useForm(initData,
-    [
-      {
-        label: 'username',
-        inputType: 'text',
-        key: 'username'
-      },
-      {
-        label: 'password',
-        inputType: 'password',
-        key: 'password'
-      }
-    ],
+  const {form} = useForm({username: '', password: ''},
+    [{label: 'username', inputType: 'text', key: 'username'},
+      {label: 'password', inputType: 'password', key: 'password'}],
     <button type={'submit'}>log in</button>,
-    onSubmit)
+    {
+      request: (data) => axios.post(`api/v1/sessions`, data), message: 'success'
+    })
 
   return (
     <div>

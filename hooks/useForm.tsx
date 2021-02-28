@@ -1,6 +1,11 @@
 import React, {ReactChild, useCallback, useState} from 'react'
+import {AxiosResponse} from 'axios'
 
-export function useForm<T> (initData: T,  fields: Field<T>[], buttons: ReactChild,onSubmit: (data: T) => void) {
+export function useForm<T> (initData: T, fields: Field<T>[], buttons: ReactChild,
+                            submit: {
+                              request: (data: T) => Promise<AxiosResponse<T>>,
+                              message: string
+                            }) {
   const [data, setData] = useState(initData)
   const [errors, setErrors] = useState(() => {
     const e: { [k in keyof T]?: string[] } = {}
@@ -14,18 +19,24 @@ export function useForm<T> (initData: T,  fields: Field<T>[], buttons: ReactChil
   const onChange = useCallback((key: keyof T, value: any) => {
     setData({...data, [key]: value})
   }, [data])
-  const _onSubmit = useCallback((e) => {
+  const _onSubmit = useCallback(async (e) => {
     e.preventDefault()
     try {
-      onSubmit(data)
-    }catch (e){
-
+      await submit.request(data)
+      window.alert(submit.message)
+    } catch (e) {
+      if (e.response) {
+        const response: AxiosResponse = e.response
+        if (response.status === 422) {
+          setErrors(response.data)
+        }
+      }
     }
-  }, [onSubmit, data])
+  }, [submit, data])
   return {
     form: <form onSubmit={_onSubmit}>
       {fields.map(field =>
-        <div key={field.label}>
+        <div key={field.key.toString()}>
           <label>
             {field.label}
             {field.inputType === 'textArea' ?
@@ -38,8 +49,7 @@ export function useForm<T> (initData: T,  fields: Field<T>[], buttons: ReactChil
       <div>
         {buttons}
       </div>
-    </form>,
-    setErrors
+    </form>
   }
 }
 
