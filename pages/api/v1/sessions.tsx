@@ -6,7 +6,6 @@ import {withSession} from '../../../lib/withSession'
 const Sessions: NextApiHandler = async (req, res) => {
   res.setHeader('Content-Type', 'application/json;charset=utf-8')
   const {username, password} = req.body
-  console.log(req.session)
   const signIn = new SignIn()
   signIn.username = username
   signIn.password = password

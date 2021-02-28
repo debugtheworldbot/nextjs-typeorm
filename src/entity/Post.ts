@@ -14,8 +14,31 @@ export class Post {
   createdAt: Date
   @CreateDateColumn()
   updatedAt: Date
-  @ManyToOne(type => User,user=>user.posts)
-  author:User
-  @OneToMany(type => Comment,comment=>comment.post)
-  comments:Comment[]
+  @ManyToOne(type => User, user => user.posts)
+  author: User
+  @OneToMany(type => Comment, comment => comment.post)
+  comments: Comment[]
+
+  errors = {
+    title: [] as string[],
+    content: [] as string[]
+  }
+
+  validate () {
+    if (!this.title) {
+      console.log(this.title)
+      this.errors.title.push(`title can't be empty`)
+    }
+    if (!this.content) {
+      this.errors.content.push(`content can't be empty`)
+    }
+
+
+    return this.errors
+
+  }
+
+  hasErrors () {
+    return !!Object.values(this.errors).find(value => value.length > 0)
+  }
 }
