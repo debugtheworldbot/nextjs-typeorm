@@ -10,7 +10,10 @@ const PostNew: NextPage = () => {
     [{label: 'title', inputType: 'text', key: 'title'},
       {label: 'content', inputType: 'textArea', key: 'content'}],
     <button type={'submit'}>post</button>,
-    {request: (data) => axios.post(`http://localhost:3000/api/v1/posts`, data), message: 'post success!'}
+    {
+      request: (data) => axios.post(`http://localhost:3000/api/v1/posts`, data),
+      success: () => window.alert('post success!')
+    }
   )
 
   return (

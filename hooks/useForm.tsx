@@ -4,7 +4,7 @@ import {AxiosResponse} from 'axios'
 export function useForm<T> (initData: T, fields: Field<T>[], buttons: ReactChild,
                             submit: {
                               request: (data: T) => Promise<AxiosResponse<T>>,
-                              message: string
+                              success: () => void
                             }) {
   const [data, setData] = useState(initData)
   const [errors, setErrors] = useState(() => {
@@ -23,10 +23,14 @@ export function useForm<T> (initData: T, fields: Field<T>[], buttons: ReactChild
     e.preventDefault()
     try {
       await submit.request(data)
-      window.alert(submit.message)
+      submit.success()
     } catch (e) {
       if (e.response) {
         const response: AxiosResponse = e.response
+        if (response.status === 401) {
+          window.alert('please login!')
+          window.location.href = `/sign_in?return_to=${encodeURIComponent(window.location.pathname)}`
+        }
         if (response.status === 422) {
           setErrors(response.data)
         }

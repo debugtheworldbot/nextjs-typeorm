@@ -12,13 +12,18 @@ const Posts: NextApiHandler = withSession(async (req, res) => {
     post.title = title
     post.content = content
     post.validate()
+    const connection = await getDatabaseConnection()
+    const user = req.session.get('currentUser')
+    if (!user) {
+      res.statusCode = 401
+      return res.end()
+    }
     if (post.hasErrors()) {
       res.statusCode = 422
       res.write(JSON.stringify(post.errors))
       res.end()
     } else {
-      const connection = await getDatabaseConnection()
-      post.author = req.session.get('currentUser')
+      post.author = user
       await connection.manager.save(post)
       res.json(post)
     }

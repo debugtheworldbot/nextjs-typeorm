@@ -11,7 +11,7 @@ const SignUp: NextPage = () => {
     ],
     <button type={'submit'}>sign up</button>,
     {
-      request: (data) => axios.post(`api/v1/users`, data), message: 'success!'
+      request: (data) => axios.post(`api/v1/users`, data), success: () => window.alert('success!')
     })
 
   return (
