@@ -7,7 +7,7 @@ import Link from 'next/link'
 type Props = {
   posts: Post[]
 }
-const index: NextPage<Props> = (props) => {
+const Posts: NextPage<Props> = (props) => {
   const {posts} = props
   return (
     <div>
@@ -18,7 +18,8 @@ const index: NextPage<Props> = (props) => {
     </div>
   )
 }
-export default index
+
+export default Posts
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const connection = await getDatabaseConnection()

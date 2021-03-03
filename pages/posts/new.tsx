@@ -12,7 +12,10 @@ const PostNew: NextPage = () => {
     <button type={'submit'}>post</button>,
     {
       request: (data) => axios.post(`http://localhost:3000/api/v1/posts`, data),
-      success: () => window.alert('post success!')
+      success: () => {
+        window.alert('post success!')
+        window.location.href = '/'
+      }
     }
   )
 
