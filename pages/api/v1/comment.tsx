@@ -25,7 +25,7 @@ const Comments: NextApiHandler = withSession(async (req, res) => {
     newComment.user = user
     newComment.post = currentPost
     await connection.manager.save(newComment)
-    res.json(currentPost)
+    res.json(newComment)
   }
 })
 export default Comments
