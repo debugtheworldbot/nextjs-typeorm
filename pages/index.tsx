@@ -13,21 +13,11 @@ type Props = {
 }
 const Posts: NextPage<Props> = (props) => {
   const {posts, total, page, size} = props
-  const totalPage = Math.ceil(total / size)
 
-  const validPage = (page: number) => {
-    if (page <= 0) {
-      return 1
-    }
-    if (page > totalPage) {
-      return totalPage
-    }
-    return page
-  }
 
   return (
     <div>
-      <h1>文章列表</h1>
+      <h1>文章列表({total})</h1>
       {posts.map(posts =>
         <div key={posts.id}>
           <Link href={`/posts/${posts.id}`}>
@@ -36,15 +26,9 @@ const Posts: NextPage<Props> = (props) => {
         </div>
       )}
       <div>
-        <Link href={`/posts?page=${validPage(page - 1)}`}>
-          <a>previous</a>
-        </Link>
-        |
-        <Link href={`/posts?page=${validPage(page + 1)}`}>
-          <a>next</a>
-        </Link>
-        |
-        {page}/{totalPage} , total {total} items
+        {page - 1 > 0 && <Link href={`/posts?page=${page - 1}`}><a> previous </a></Link>}
+        {page + 1 < Math.ceil(total / size) && <Link href={`/posts?page=${page + 1}`}><a> next </a></Link>}
+        {page}/{Math.ceil(total / size)}
       </div>
 
     </div>
