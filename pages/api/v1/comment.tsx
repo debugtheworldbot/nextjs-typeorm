@@ -9,20 +9,22 @@ const Comments: NextApiHandler = withSession(async (req, res) => {
   if (req.method === 'POST') {
     const {postId, comment} = req.body
     const connection = await getDatabaseConnection()
+    const user = req.session.get('currentUser')
+    if (!user) {
+      res.statusCode = 401
+      return res.end()
+    }
     const currentPost = await connection.manager.findOne(Post, {id: postId})
-    const C = new Comment()
-    C.content = comment
+    const newComment = new Comment()
     if (!comment) {
       res.statusCode = 422
       res.write(JSON.stringify({comment: ['comment cant be empty!']}))
-      res.end()
+      return res.end()
     }
-    if (currentPost.comments) {
-      currentPost.comments.push(C)
-    } else {
-      currentPost.comments = [C]
-    }
-    await connection.manager.save(currentPost)
+    newComment.content = comment
+    newComment.user = user
+    newComment.post = currentPost
+    await connection.manager.save(newComment)
     res.json(currentPost)
   }
 })
