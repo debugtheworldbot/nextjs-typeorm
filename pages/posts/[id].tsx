@@ -1,24 +1,25 @@
-import React, {FormEventHandler, useState} from 'react'
+import React from 'react'
 import {GetServerSideProps, NextPage} from 'next'
 import {getDatabaseConnection} from '../../lib/getDatabaseConnection'
 import {Post} from '../../src/entity/Post'
-import {comment} from 'postcss'
-import axios, {AxiosResponse} from 'axios'
+import axios from 'axios'
 import {useForm} from '../../hooks/useForm'
-import qs from 'query-string'
+import {Comment} from '../../src/entity/Comment'
 
 type Props = {
   post: Post
+  comments?: Comment[]
 }
 const postsShow: NextPage<Props> = (props) => {
-  const {post} = props
+  const {post, comments} = props
 
   const {form} = useForm({comment: '', postId: post.id},
     [{label: '', inputType: 'textArea', key: 'comment'}],
     <button type={'submit'}>comment</button>,
     {
       request: (data) => axios.post(`http://localhost:3000/api/v1/comment`, data), success: () => {
-        window.alert('success!')
+        window.alert('comment success!')
+        location.reload()
       }
     })
 
@@ -31,12 +32,13 @@ const postsShow: NextPage<Props> = (props) => {
         <h1>comments</h1>
         {form}
         <hr />
-        {post.comments?.map(comment => <div>
+        {comments?.map(comment => <div key={comment.id}>
           <h2>{comment.user}</h2>
           <div>
             {comment.content}
           </div>
-          <span>createdAt {comment.createdAt}</span>
+          <span>created at {comment.createdAt.toString().slice(0, 10)}</span>
+          <hr />
         </div>)}
       </footer>
     </div>
@@ -48,9 +50,11 @@ export default postsShow
 export const getServerSideProps: GetServerSideProps<any, { id: string }> = async (context) => {
   const connection = await getDatabaseConnection()
   const post = await connection.manager.findOne(Post, context.params.id)
+  const comments = await connection.manager.find(Comment, {post: post})
   return {
     props: {
-      post: JSON.parse(JSON.stringify(post))
+      post: JSON.parse(JSON.stringify(post)),
+      comments: JSON.parse(JSON.stringify(comments)),
     }
   }
 }
