@@ -13,11 +13,11 @@ type Props = {
 const postsShow: NextPage<Props> = (props) => {
   const {post} = props
 
-  const {form} = useForm({comment: ''},
+  const {form} = useForm({comment: '', postId: post.id},
     [{label: '', inputType: 'textArea', key: 'comment'}],
     <button type={'submit'}>comment</button>,
     {
-      request: (data) => axios.post(`api/v1/sessions`, data), success: () => {
+      request: (data) => axios.post(`http://localhost:3000/api/v1/comment`, data), success: () => {
         window.alert('success!')
       }
     })
